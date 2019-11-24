@@ -60,7 +60,7 @@ pair<float, float> Hammersley(uint32_t Seed, uint32_t SampleCount, uint32_t Orde
 			((Seed & 0x1 << ((Order / 2 + (ShiftStep + 1) / 2) - 1)) >> ShiftStep) |
 			((Seed & 0x1 << (Order / 2 - (ShiftStep + 1) / 2)) << ShiftStep);
 
-		if (ShiftStep == 1) break;
+		if (ShiftStep <= 1) break;
 
 		ShiftStep -= 2;
 	}
@@ -74,6 +74,7 @@ pair<float, float> Hammersley(uint32_t Seed, uint32_t SampleCount, uint32_t Orde
 int main()
 {
 	// This is a 2D Hammersley set with order of 10
+	vector<pair<float, float>> vHammersleySetReference{};
 	vector<pair<float, float>> vHammersleySet{};
 	
 	// FOR EXAMPLE,
@@ -94,14 +95,12 @@ int main()
 	}
 	*/
 
-	uint32_t SeedCount{ 1024 };
-
-	/*
+	uint32_t SeedCount{ 128 };
+	
 	for (uint32_t Seed = 0; Seed < SeedCount; ++Seed)
 	{
-		vHammersleySet.emplace_back(HammersleyReference(Seed, SeedCount));
+		vHammersleySetReference.emplace_back(HammersleyReference(Seed, SeedCount));
 	}
-	*/
 
 	uint32_t Order{ GetHammersleyOrder(SeedCount) };
 	float Base{ GetHammersleyBase(Order) };
